@@ -2,9 +2,7 @@
 //背景样式
 import { ref } from 'vue'
 import type { ComponentMap } from '@/views/Login/types/login-type'
-import PhoneCodeForm from '@/views/Login/components/PhoneCodeForm.vue'
-import AccountForm from '@/views/Login/components/AccountForm.vue'
-import QcodeForm from '@/views/Login/components/QcodeForm.vue'
+import { PhoneCodeForm, AccountForm, QcodeForm } from './components'
 
 const bgColor = 'linear-gradient(0deg, #2196f3, #00bcd4, #00bcd4, #03a9f4)'
 const tabList = ref<ComponentMap[]>([

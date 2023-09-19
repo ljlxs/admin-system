@@ -4,3 +4,16 @@ export type ComponentMap = {
   name: string
   componentName: DefineComponent<{}, {}, any>
 }
+export interface RuleForm {
+  userCellPhone: string
+  smscode: string
+  imgcode: string
+  saveUserName: boolean
+}
+// 定义账号密码登录的表单数据类型
+export type AccountFormType = Pick<RuleForm, 'imgcode'> & {
+  password: string
+  username: string
+  saveUserName?: boolean
+  saveUserPass?: boolean
+}
