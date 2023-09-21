@@ -6,8 +6,10 @@ import type { FormInstance } from 'element-plus'
 import type { RuleForm } from '../types/login-type'
 import utils from '@/utils/utils'
 import { phoneCodeFormRules } from '../rules/index'
+import { useGetPhoneCode, useHandleSaveUser } from '../composabol/phone-code'
 //图片验证码
 import { useGetImgCode } from '../composabol/index'
+
 //图片验证码
 const { imgCodeSrc, getImgCode } = useGetImgCode()
 
@@ -18,13 +20,13 @@ const ruleForm = reactive<RuleForm>({
   imgcode: '',
   saveUserName: false
 })
-import { useGetPhoneCode, useHandleSaveUser } from '../composabol/phone-code'
+
 // 验证码
 const { PictureText, currentTime, getPicture } = useGetPhoneCode(ruleForm)
 const { getLocalUser } = useHandleSaveUser(ruleForm)
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
       // 1. 点击登录按钮,判断是否保存用户名,如果保存用户名,则将用户名和保存的状态存储到本地
       if (ruleForm.saveUserName) {
@@ -32,8 +34,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       } else {
         utils.removeData('userCellPhone')
       }
-
-      console.log('submit!')
     } else {
       console.log('error submit!', fields)
     }

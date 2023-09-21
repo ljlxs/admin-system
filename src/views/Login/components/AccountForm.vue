@@ -5,6 +5,8 @@ import type { FormInstance } from 'element-plus'
 import type { AccountFormType } from '../types/login-type'
 import { accountFormRules } from '../rules/index'
 import { useGetImgCode } from '../composabol/index'
+import { accountLogin } from '@/api/user'
+import utils from '@/utils/utils'
 //图片验证码
 const { imgCodeSrc, getImgCode } = useGetImgCode()
 
@@ -17,26 +19,40 @@ const ruleForm = reactive<AccountFormType>({
   saveUserPass: false
 })
 import { useHandleSaveUserOrPass } from '../composabol/account'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const store = useUserStore()
 const { useSaveLocalUserOrPass, useGetLocalUserOrPass } = useHandleSaveUserOrPass(ruleForm)
 // 验证码
 // const {PictureText, currentTime, getPicture} = useGetPhoneCode(ruleForm)
 // const {getLocalUser} = useHandleSaveUser(ruleForm)
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      // // 1. 点击登录按钮,判断是否保存用户名,如果保存用户名,则将用户名和保存的状态存储到本地
-      // if (ruleForm.saveUserName) {
-      //   utils.saveData('username', ruleForm.username)
-      // }
-      // // 如果勾选了记住密码
-      // if (ruleForm.saveUserPass) {
-      //   utils.saveData('password', ruleForm.password)
-      // }
-      useSaveLocalUserOrPass()
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
+  await formEl.validate(async (valid, fields) => {
+    if (!valid) {
+      for (const key in fields) {
+        console.log('key', key)
+        utils.showError(fields[key][0].message!)
+      }
+      return
+    }
+    useSaveLocalUserOrPass()
+    utils.openLoading()
+    try {
+      const res = await accountLogin({
+        imgcode: ruleForm.imgcode,
+        password: ruleForm.password,
+        username: ruleForm.username
+      })
+      if (res.code == 888) {
+        store.setToken(res.token)
+        store.setUser(res.data!)
+        router.push('/')
+      }
+    } finally {
+      // 关闭loading
+      utils.closeLoading()
     }
   })
 }
@@ -63,7 +79,7 @@ onMounted(() => {
           placeholder="请输入手机号"
         />
       </el-form-item>
-      <el-form-item prop="smscode">
+      <el-form-item prop="password">
         <el-input
           size="large"
           :prefix-icon="Picture"
