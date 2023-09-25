@@ -30,7 +30,7 @@ module.exports = {
     'vue/multi-word-component-names': [
       'warn',
       {
-        ignores: ['index']
+        ignores: ['index', 'Menu', 'Logo']
       }
     ],
     'vue/no-setup-props-destructure': ['off']

@@ -5,6 +5,7 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "module": "ES2022",
     "paths": {
       "@/*": ["./src/*"]
     }

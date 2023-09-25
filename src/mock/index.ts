@@ -1,5 +1,6 @@
 import Mock from 'mockjs'
 import user from './userData'
+import './menuData'
 const Rondom = Mock.Random
 Mock.mock('/api/login/username', (options) => {
   console.log('options', options)
