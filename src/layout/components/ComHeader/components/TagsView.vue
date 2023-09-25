@@ -47,22 +47,41 @@ const iconEel = (item: TagsType, index: number) => {
   </div>
 </template>
 <style lang="scss" scoped>
+//定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+//定义滑块 内阴影+圆角
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: #ccc;
+}
+//定义滚动条轨道 内阴影+圆角
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: rgba(50, 50, 50, 0.1);
+}
 .active {
   background: #298efc;
   color: #ffffff;
 }
 .TagsView {
+  width: 100%;
   flex: 1;
   color: #ccc;
+  height: 100%;
   padding-left: 20px;
   display: flex;
   align-items: center;
+  overflow-x: auto;
   .tags-item {
     display: flex;
     align-items: center;
     padding: 10px 15px;
     border-radius: 25px;
     margin: 0 5px;
+    min-width: 100px;
     > span {
       margin: 0 5px;
       font-size: 14px;

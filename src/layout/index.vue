@@ -22,11 +22,26 @@ const asideWidth = computed(() => {
 </template>
 
 <style scoped lang="scss">
+//定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+//定义滑块 内阴影+圆角
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: #ccc;
+}
+//定义滚动条轨道 内阴影+圆角
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: rgba(50, 50, 50, 0.1);
+}
 .layout {
   height: 100%;
-  ::-webkit-scrollbar {
-    width: 0;
-  }
+  // ::-webkit-scrollbar {
+  //   width: 0;
+  // }
   .el-header {
     padding: 5px;
     background: #23262e;
